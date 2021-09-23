@@ -3,6 +3,7 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import lesson1.task1.sqr
 import kotlin.math.max
 import kotlin.math.sqrt
 
@@ -68,7 +69,14 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String {
+    return when {
+        (((age % 100) >= 10) && ((age % 100) <= 20)) -> "$age лет"
+        ((age % 10) == 1)                            -> "$age год"
+        (((age % 10) >= 2) && ((age % 10) <= 4))     -> "$age года"
+        else                                         -> "$age лет"
+    }
+}
 
 /**
  * Простая (2 балла)
@@ -122,7 +130,16 @@ fun rookOrBishopThreatens(
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int =
+    if ((a + b > c) && (a + c > b) && (b + c > a)) (
+            if ((sqr(a) > sqr(b) + sqr(c)) ||
+                (sqr(b) > sqr(a) + sqr(c)) ||
+                (sqr(c) > sqr(a) + sqr(b))) 2 else
+                if ((sqr(a) == sqr(b) + sqr(c)) ||
+                    (sqr(b) == sqr(a) + sqr(c)) ||
+                    (sqr(c) == sqr(a) + sqr(b))) 1 else 0
+            )
+    else -1
 
 /**
  * Средняя (3 балла)
@@ -132,4 +149,14 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    return when {
+        ((c >= a) && (b >= c) && (d >= b)) -> (b - c)
+        ((a >= c) && (d >= a) && (b >= d)) -> (d - a)
+        ((c >= a) && (b >= d))             -> (d - c)
+        ((a >= c) && (d >= b))             -> (b - a)
+        (c == b)                           -> 0
+        (a == d)                           -> 0
+        else                               -> -1
+    }
+}
