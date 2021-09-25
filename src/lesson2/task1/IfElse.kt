@@ -70,11 +70,12 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
+    val lastDigit = age % 10
     return when {
-        (((age % 100) >= 10) && ((age % 100) <= 20)) -> "$age лет"
-        ((age % 10) == 1)                            -> "$age год"
-        (((age % 10) >= 2) && ((age % 10) <= 4))     -> "$age года"
-        else                                         -> "$age лет"
+        age % 100 in 10..20                        -> "$age лет"
+        lastDigit == 1                             -> "$age год"
+        lastDigit in 2..4                          -> "$age года"
+        else                                       -> "$age лет"
     }
 }
 
@@ -131,15 +132,20 @@ fun rookOrBishopThreatens(
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int =
-    if ((a + b > c) && (a + c > b) && (b + c > a)) (
-            if ((sqr(a) > sqr(b) + sqr(c)) ||
-                (sqr(b) > sqr(a) + sqr(c)) ||
-                (sqr(c) > sqr(a) + sqr(b))) 2 else
-                if ((sqr(a) == sqr(b) + sqr(c)) ||
-                    (sqr(b) == sqr(a) + sqr(c)) ||
-                    (sqr(c) == sqr(a) + sqr(b))) 1 else 0
-            )
-    else -1
+    when {
+        (a + b > c) && (a + c > b) && (b + c > a) -> (
+                when {
+                    sqr(a) > sqr(b) + sqr(c)  -> 2
+                    sqr(b) > sqr(a) + sqr(c)  -> 2
+                    sqr(c) > sqr(a) + sqr(b)  -> 2
+                    sqr(a) == sqr(b) + sqr(c) -> 1
+                    sqr(b) == sqr(a) + sqr(c) -> 1
+                    sqr(c) == sqr(a) + sqr(b) -> 1
+                    else                      -> 0
+                }
+                )
+        else -> -1
+    }
 
 /**
  * Средняя (3 балла)
@@ -149,8 +155,8 @@ fun triangleKind(a: Double, b: Double, c: Double): Int =
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    return when {
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int =
+    when {
         ((c >= a) && (b >= c) && (d >= b)) -> (b - c)
         ((a >= c) && (d >= a) && (b >= d)) -> (d - a)
         ((c >= a) && (b >= d))             -> (d - c)
@@ -159,4 +165,4 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
         (a == d)                           -> 0
         else                               -> -1
     }
-}
+
