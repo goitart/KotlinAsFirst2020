@@ -98,15 +98,11 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = TODO()
  * Пользователь задает целое число, большее 100 (например, 3801).
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
-fun thirdDigit(number: Int): Int{
+fun thirdDigit(number: Int): Int {
     var n1 = number
-    if (number > 999){
-
+    if (number > 999) {
         n1 = (n1 / 100) % 10
-    }
-    else{
-        n1 = n1 / 100
-    }
+    } else n1 /= 100
     return n1
 }
 
@@ -135,7 +131,7 @@ fun accountInThreeYears(initial: Int, percent: Int): Double = TODO()
  * Пользователь задает целое трехзначное число (например, 478).
  * Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
-fun numberRevert(number: Int): Int{
+fun numberRevert(number: Int): Int {
     val n1 = (number / 100)
     val n2 = ((number / 10) % 10) * 10
     val n3 = (number % 10) * 100
