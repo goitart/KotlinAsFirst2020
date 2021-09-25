@@ -72,10 +72,10 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
 fun ageDescription(age: Int): String {
     val lastDigit = age % 10
     return when {
-        age % 100 in 10..20                        -> "$age лет"
-        lastDigit == 1                             -> "$age год"
-        lastDigit in 2..4                          -> "$age года"
-        else                                       -> "$age лет"
+        age % 100 in 10..20 -> "$age лет"
+        lastDigit == 1      -> "$age год"
+        lastDigit in 2..4   -> "$age года"
+        else                -> "$age лет"
     }
 }
 
