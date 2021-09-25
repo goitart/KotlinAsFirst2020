@@ -20,9 +20,9 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  */
 fun isNumberHappy(number: Int): Boolean {
     val n1 = (number % 10)
-    val n2 = ((number % 100) / 10)
-    val n3 = ((number % 1000) / 100)
-    val n4 = ((number % 10000) / 1000)
+    val n2 = (number % 100 / 10)
+    val n3 = (number % 1000 / 100)
+    val n4 = (number % 10000 / 1000)
     return (n1 + n2) == (n3 + n4)
 }
 
