@@ -72,10 +72,10 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
 fun ageDescription(age: Int): String {
     val lastDigit = age % 10
     return when {
-        age % 100 in 10..20  -> "$age лет"
-        lastDigit == 1       -> "$age год"
-        lastDigit in 2..4    -> "$age года"
-        else                 -> "$age лет"
+        age % 100 in 10..20 -> "$age лет"
+        lastDigit == 1 -> "$age год"
+        lastDigit in 2..4 -> "$age года"
+        else -> "$age лет"
     }
 }
 
@@ -133,17 +133,16 @@ fun rookOrBishopThreatens(
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int =
     when {
-        (a + b > c) && (a + c > b) && (b + c > a) -> (
-                when {
-                    sqr(a) > sqr(b) + sqr(c)  -> 2
-                    sqr(b) > sqr(a) + sqr(c)  -> 2
-                    sqr(c) > sqr(a) + sqr(b)  -> 2
-                    sqr(a) == sqr(b) + sqr(c) -> 1
-                    sqr(b) == sqr(a) + sqr(c) -> 1
-                    sqr(c) == sqr(a) + sqr(b) -> 1
-                    else                      -> 0
-                }
-                )
+        (a + b > c) && (a + c > b) && (b + c > a) ->
+            when {
+                sqr(a) > sqr(b) + sqr(c) -> 2
+                sqr(b) > sqr(a) + sqr(c) -> 2
+                sqr(c) > sqr(a) + sqr(b) -> 2
+                sqr(a) == sqr(b) + sqr(c) -> 1
+                sqr(b) == sqr(a) + sqr(c) -> 1
+                sqr(c) == sqr(a) + sqr(b) -> 1
+                else -> 0
+            }
         else -> -1
     }
 
@@ -157,12 +156,12 @@ fun triangleKind(a: Double, b: Double, c: Double): Int =
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int =
     when {
-        ((c >= a) && (b >= c) && (d >= b)) -> (b - c)
-        ((a >= c) && (d >= a) && (b >= d)) -> (d - a)
-        ((c >= a) && (b >= d))             -> (d - c)
-        ((a >= c) && (d >= b))             -> (b - a)
-        (c == b)                           -> 0
-        (a == d)                           -> 0
-        else                               -> -1
+        c in a..b && d >= b -> b - c
+        a in c..d && b >= d -> d - a
+        c >= a && b >= d    -> d - c
+        a >= c && d >= b    -> b - a
+        c == b -> 0
+        a == d -> 0
+        else   -> -1
     }
 
