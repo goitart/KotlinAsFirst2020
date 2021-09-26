@@ -70,14 +70,14 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String {
     val n = age % 100
-    if ((n in 10..20) or (age % 10 == 0) or (age % 10 > 4)) {
+    val x = age % 10
+    if ((n in 10..20) || (x == 0) || (x > 4)) {
         return ("$age лет")
     }
-    val x = age % 10
-    if (x == 1) {
-        return ("$age год")
+    return if (x == 1) {
+        "$age год"
     } else {
-        return ("$age года")
+        "$age года"
     }
 }
 
@@ -146,19 +146,12 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     val len1 = b - a
     val len2 = d - c
-    val leg: Int
-    if ((d < a) || (b < c)) {
-        leg = -1
-    } else if ((a <= c) && (b <= d)) {
-        leg = b - c
-    } else if ((a <= c) && (d <= b)) {
-        leg = len2
-    } else if ((c <= a) && (b <= d)) {
-        leg = len1
-    } else if ((c <= a) && (d <= b)) {
-        leg = d - a
-    } else {
-        leg = -1
+    return when {
+        d < a || b < c -> -1
+        (a <= c) && (b <= d) -> b - c
+        (a <= c) && (d <= b) -> len2
+        (c <= a) && (b <= d) -> len1
+        (c <= a) && (d <= b) -> d - a
+        else -> -1
     }
-    return leg
 }
