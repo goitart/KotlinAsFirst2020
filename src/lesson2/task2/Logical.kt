@@ -19,11 +19,11 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
 fun isNumberHappy(number: Int): Boolean {
-    val n1 = (number % 10)
-    val n2 = (number % 100 / 10)
-    val n3 = (number % 1000 / 100)
-    val n4 = (number % 10000 / 1000)
-    return (n1 + n2) == (n3 + n4)
+    val n1 = number % 10
+    val n2 = number % 100 / 10
+    val n3 = number % 1000 / 100
+    val n4 = number % 10000 / 1000
+    return n1 + n2 == n3 + n4
 }
 
 /**
@@ -67,9 +67,9 @@ fun circleInside(
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
     return when {
-        (((a <= r) && (c <= s)) || ((a <= s) && (c <= r))) -> true
-        (((a <= r) && (b <= s)) || ((a <= s) && (b <= r))) -> true
-        (((b <= r) && (c <= s)) || ((b <= s) && (c <= r))) -> true
+        a <= r && c <= s || a <= s && c <= r -> true
+        a <= r && b <= s || a <= s && b <= r -> true
+        b <= r && c <= s || b <= s && c <= r -> true
         else -> false
     }
 }
