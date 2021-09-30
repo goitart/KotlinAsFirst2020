@@ -80,7 +80,20 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var num1 = 1
+    var num2 = 1
+    var num3 = 0
+    var count = 2
+    while (count != n) {
+        num3 = num1 + num2
+        num1 = num2
+        num2 = num3
+        count += 1
+    }
+    return if (n == 1 || n == 2) 1
+    else num3
+}
 
 /**
  * Простая (2 балла)
@@ -203,4 +216,40 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var num1 = 1
+    var num2 = 1
+    var num3 = 0
+    var count = 2
+    while (count != n) {
+        num3 = num1 + num2
+        num1 = num2
+        num2 = num3
+        count += lenNum(num3)
+        print(num3)
+    }
+    print(lenNum(num3))
+    var countDigits = 0
+    var lenNum3 = lenNum(num3)
+    count -= lenNum3
+    if (n > 6) {
+        while (lenNum3 != n - count) {
+            lenNum3 /= 10
+        }
+    }
+    return when {
+        n == 1 || n == 2 -> 1
+        n > 6            -> lenNum3
+        else             -> lenNum3
+    }
+}
+
+fun lenNum(x: Int): Int {
+    var x0 = x
+    var countLenNum = 0
+    while (x0 != 0) {
+        x0 = x / 10
+        countLenNum += 1
+    }
+    return countLenNum
+}
