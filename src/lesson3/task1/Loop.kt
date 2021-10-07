@@ -244,6 +244,7 @@ fun fibSequenceDigit(n: Int): Int {
     while (lenNum(num3) + count != n) num3 /= 10
     return if (n == 2 || n == 1) 1
     else num3 % 10
+
 }
 
 fun lenNum(x: Int): Int {
