@@ -85,7 +85,7 @@ fun fib(n: Int): Int {
     var num2 = 1
     var num3 = 0
     var count = 2
-    while (count != n) {
+    while (count < n) {
         num3 = num1 + num2
         num1 = num2
         num2 = num3
