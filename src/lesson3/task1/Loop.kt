@@ -205,7 +205,20 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var numMulti = 1
+    var num = 1
+    var countNum = 0
+    while (countNum < n) {
+        num = numMulti * numMulti
+        countNum += lenNum(num)
+        numMulti += 1
+    }
+    countNum -= lenNum(num)
+    while (lenNum(num) + countNum != n) num /= 10
+    return if (n == 1) 1
+    else num % 10
+}
 
 /**
  * Сложная (5 баллов)
@@ -218,37 +231,26 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  */
 fun fibSequenceDigit(n: Int): Int {
     var num1 = 1
+    var num3 = 3
     var num2 = 1
-    var num3 = 0
     var count = 2
-    while (count != n) {
+    while (count < n) {
         num3 = num1 + num2
         num1 = num2
         num2 = num3
         count += lenNum(num3)
-        print(num3)
     }
-    print(lenNum(num3))
-    var countDigits = 0
-    var lenNum3 = lenNum(num3)
-    count -= lenNum3
-    if (n > 6) {
-        while (lenNum3 != n - count) {
-            lenNum3 /= 10
-        }
-    }
-    return when {
-        n == 1 || n == 2 -> 1
-        n > 6            -> lenNum3
-        else             -> lenNum3
-    }
+    count -= lenNum(num3)
+    while (lenNum(num3) + count != n) num3 /= 10
+    return if (n == 2 || n == 1) 1
+    else num3 % 10
 }
 
 fun lenNum(x: Int): Int {
     var x0 = x
     var countLenNum = 0
-    while (x0 != 0) {
-        x0 = x / 10
+    while (x0 > 0) {
+        x0 /= 10
         countLenNum += 1
     }
     return countLenNum
