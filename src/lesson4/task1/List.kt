@@ -4,6 +4,7 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import kotlin.math.sqrt
+import kotlin.math.*
 
 // Урок 4: списки
 // Максимальное количество баллов = 12
@@ -127,7 +128,14 @@ fun abs(v: List<Double>): Double = TODO()
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = TODO()
+fun mean(list: List<Double>): Double{
+    if (list.size == 0) {
+        return 0.0
+    }
+    val n = list.size
+    val n1 = list.sum()
+    return n1 / n
+}
 
 /**
  * Средняя (3 балла)
@@ -186,7 +194,22 @@ fun factorize(n: Int): List<Int> = TODO()
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String {
+    var n1 = n
+    var del = 2
+    var fin = ""
+    while (n1 != 1) {
+        if (n1 % del == 0) {
+            fin += del
+            n1 = n1 / del
+            del = 1
+            fin += "*"
+        }
+        del ++
+    }
+    fin = fin.substringBeforeLast("*")
+    return(fin)
+}
 
 /**
  * Средняя (3 балла)
@@ -241,7 +264,34 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    val numb = n
+    val numbers = listOf<Int>(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1, 0)
+    val romans = listOf<String>("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I", "")
+    val str = numb.toString()
+    val len = str.length
+    var st = len - 1
+    var finaly = ""
+    var n2 = 0
+    var count: Int
+    for (i in 1..len) {
+        count = 0
+        var n1 = (((numb / 10.0.pow(st)) % 10).toInt() * 10.0.pow(st)).toInt()
+        while (n1 in numbers == false) {
+            n1 -= 10.0.pow(st).toInt()
+            n2 = numbers.indexOf(10.0.pow(st).toInt())
+            count++
+        }
+        if (n1 in numbers) {
+            finaly += romans[numbers.indexOf(n1)]
+        }
+        for (m in 0..count - 1) {
+            finaly += romans[n2]
+        }
+        st--
+    }
+    return finaly
+}
 
 /**
  * Очень сложная (7 баллов)
