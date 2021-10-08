@@ -211,9 +211,10 @@ fun convert(n: Int, base: Int): List<Int> {
     var n1 = n
     while (n1 != 0) {
         numberBase.add(n1 % base)
-        n1 = n1 / base
+        n1 /= base
     }
-    return numberBase.reversed()
+    return if (n > 0) numberBase.reversed()
+    else listOf(0)
 }
 
 /**
