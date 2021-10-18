@@ -128,13 +128,11 @@ fun abs(v: List<Double>): Double = TODO()
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double{
-    if (list.size == 0) {
+fun mean(list: List<Double>): Double {
+    if (list.isEmpty()) {
         return 0.0
     }
-    val n = list.size
-    val n1 = list.sum()
-    return n1 / n
+    return list.sum() / list.size
 }
 
 /**
@@ -195,20 +193,15 @@ fun factorize(n: Int): List<Int> = TODO()
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
 fun factorizeToString(n: Int): String {
-    var n1 = n
-    var del = 2
-    var fin = ""
-    while (n1 != 1) {
-        if (n1 % del == 0) {
-            fin += del
-            n1 = n1 / del
-            del = 1
-            fin += "*"
+    var final = n
+    val prost = mutableListOf<Int>()
+    for (i in 2..n) {
+        while (final % i == 0) {
+            prost.add(i)
+            final /= i
         }
-        del ++
     }
-    fin = fin.substringBeforeLast("*")
-    return(fin)
+    return prost.joinToString(separator = "*")
 }
 
 /**
@@ -265,10 +258,9 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
-    val numb = n
-    val numbers = listOf<Int>(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1, 0)
-    val romans = listOf<String>("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I", "")
-    val str = numb.toString()
+    val numbers = listOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1, 0)
+    val romans = listOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I", "")
+    val str = n.toString()
     val len = str.length
     var st = len - 1
     var finaly = ""
@@ -276,8 +268,8 @@ fun roman(n: Int): String {
     var count: Int
     for (i in 1..len) {
         count = 0
-        var n1 = (((numb / 10.0.pow(st)) % 10).toInt() * 10.0.pow(st)).toInt()
-        while (n1 in numbers == false) {
+        var n1 = (((n / 10.0.pow(st)) % 10).toInt() * 10.0.pow(st)).toInt()
+        while (n1 !in numbers) {
             n1 -= 10.0.pow(st).toInt()
             n2 = numbers.indexOf(10.0.pow(st).toInt())
             count++
@@ -285,7 +277,7 @@ fun roman(n: Int): String {
         if (n1 in numbers) {
             finaly += romans[numbers.indexOf(n1)]
         }
-        for (m in 0..count - 1) {
+        for (m in 0 until count) {
             finaly += romans[n2]
         }
         st--
