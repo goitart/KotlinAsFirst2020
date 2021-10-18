@@ -83,7 +83,7 @@ fun digitNumber(n: Int): Int = TODO()
 fun fib(n: Int): Int {
     var num1 = 1
     var num2 = 1
-    var num3 = 0
+    var num3 = 1
     var count = 2
     while (count < n) {
         num3 = num1 + num2
@@ -91,8 +91,7 @@ fun fib(n: Int): Int {
         num2 = num3
         count += 1
     }
-    return if (n == 1 || n == 2) 1
-    else num3
+    return num3
 }
 
 /**
@@ -216,8 +215,7 @@ fun squareSequenceDigit(n: Int): Int {
     }
     countNum -= lenNum(num)
     while (lenNum(num) + countNum != n) num /= 10
-    return if (n == 1) 1
-    else num % 10
+    return num % 10
 }
 
 /**
