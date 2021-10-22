@@ -265,18 +265,17 @@ fun roman(n: Int): String {
     val arabNumbers = listOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
     val romanNumbers = listOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
     var n0 = n
-    var romanNumber = ""
+    var romanNumber = StringBuilder()
     var listPlace = 0
     for (i in romanNumbers.indices) {
         while (n0 >= arabNumbers[listPlace]) {
             n0 -= arabNumbers[listPlace]
-            romanNumber += romanNumbers[listPlace]
+            romanNumber.append(romanNumbers[listPlace])
         }
         listPlace += 1
     }
-    return romanNumber
+    return "$romanNumber"
 }
-
 /**
  * Очень сложная (7 баллов)
  *
