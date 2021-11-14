@@ -2,6 +2,9 @@
 
 package lesson5.task1
 
+import ru.spbstu.wheels.sorted
+import kotlin.math.max
+
 // Урок 5: ассоциативные массивы и множества
 // Максимальное количество баллов = 14
 // Рекомендуемое количество баллов = 9
@@ -208,7 +211,16 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
  * Например:
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
-fun extractRepeats(list: List<String>): Map<String, Int> = TODO()
+fun extractRepeats(list: List<String>): Map<String, Int> {
+    val frequency = mutableMapOf<String, Int>()
+    if (list.isEmpty()) return emptyMap()
+    for (i in list.indices) {
+        if (list[i] in frequency.keys) frequency[list[i]] = frequency.getValue(list[i]) + 1
+        else frequency[list[i]] = 1
+    }
+    return frequency.filterValues { it > 1 }
+}
+
 
 /**
  * Средняя (3 балла)
@@ -277,7 +289,26 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
+
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+    if (list.isEmpty()) {
+        return Pair(-1, -1)
+    }
+    val pairs = mapOf(list[0] to list[1], list[2] to list[0], list[1] to list[2])
+    val n = when {
+        list[0] == list[1] || list[1] == list[2] -> 1
+        list[0] == list[2]                       -> 2
+        else                                     -> 0
+    }
+    var pair = Pair(-1, -1)
+    for ((key, value) in pairs) {
+        if (key + value == number) {
+            pair = Pair(list.indexOf(key), list.indexOf(value) + n)
+            break
+        }
+    }
+    return pair.sorted()
+}
 
 /**
  * Очень сложная (8 баллов)
@@ -300,4 +331,36 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
  *     450
  *   ) -> emptySet()
  */
-fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> = TODO()
+
+fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
+    val weights = mutableListOf<Int>()
+    val costs = mutableListOf<Int>()
+    val names = mutableListOf<String>()
+    val filling = mutableSetOf<String>()
+    for ((key, value) in treasures) {
+        weights.add(value.first)
+        costs.add(value.second)
+        names.add(key)
+    }
+    val spreadsheet = Array(weights.size + 1) { IntArray(capacity + 1) }
+    for (i in 1..weights.size)
+        for (k in 0..capacity)
+            if (weights[i - 1] > k) {
+                spreadsheet[i][k] = spreadsheet[i - 1][k]
+            } else {
+                val prevLine = spreadsheet[i - 1][k]
+                val cell = costs[i - 1] + spreadsheet[i - 1][k - weights[i - 1]]
+                spreadsheet[i][k] = max(cell, prevLine)
+            }
+//добавить заполнение set
+    var capacityCount = capacity
+    var a = names.size
+    while (a > 0) {
+        if (spreadsheet[a][capacityCount] != spreadsheet[a - 1][capacityCount]) {
+            filling.add(names[a - 1])
+            capacityCount -= weights[a - 1]
+        }
+        a -= 1
+    }
+    return filling
+}

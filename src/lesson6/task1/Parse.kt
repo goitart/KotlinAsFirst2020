@@ -138,7 +138,22 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    val numOpt = (""" """).toRegex().split(expression)
+    var oneStep = numOpt[0].toInt()
+    for (i in 1..numOpt.size - 1) {
+        if (numOpt[i] == "+") {
+            oneStep += numOpt[i + 1].toInt()
+        }
+        if (numOpt[i] == "-") {
+            oneStep -= numOpt[i + 1].toInt()
+        }
+    }
+    if (Regex("""(\d+ [+-] )+\d+""").matches(expression)) {
+        return oneStep
+    } else throw IllegalArgumentException(expression)
+}
+
 
 /**
  * Сложная (6 баллов)
@@ -149,7 +164,19 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val words = (""" """).toRegex().split(str)
+    if (words.size == 1) return -1
+    var answer = 0
+    for (w in 1..words.size) {
+        if (words[w - 1].equals(words[w], ignoreCase = true)) {
+            break
+        } else {
+            answer += words[w - 1].length + 1
+        }
+    }
+    return answer
+}
 
 /**
  * Сложная (6 баллов)
@@ -170,7 +197,7 @@ fun mostExpensive(description: String): String = TODO()
  * Перевести число roman, заданное в римской системе счисления,
  * в десятичную систему и вернуть как результат.
  * Римские цифры: 1 = I, 4 = IV, 5 = V, 9 = IX, 10 = X, 40 = XL, 50 = L,
- * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
+ * 90 = , 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: XXIII = 23, XLIV = 44, C = 100
  *
  * Вернуть -1, если roman не является корректным римским числом
