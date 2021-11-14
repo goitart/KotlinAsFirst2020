@@ -193,12 +193,12 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
         producttypes.add(value.first)
         produstvalues.add(value.second)
         if (kind == value.first) {
-            if (value.second <= minvalue){
+            if (value.second <= minvalue) {
                 minvalue = value.second
             }
         }
     }
-    if (produstvalues.indexOf(minvalue) == -1){
+    if (produstvalues.indexOf(minvalue) == -1) {
         return null
     } else {
         return productnames[produstvalues.indexOf(minvalue)]
@@ -298,30 +298,14 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
-    if (list.size == 0) {
-        return Pair(-1, -1)
-    }
-    val n0 = list[0]
-    val n1 = list[1]
-    val n2 = list[2]
-    var j = 0
-    var o = 0
-    val pairs = mutableMapOf(
-        n0 to n1,
-        n1 to n2,
-        n2 to n0
-    )
-    for (i in 0..2) {
-        if (pairs[list[i]]?.plus(list[i]) == number) {
-            j = list.indexOf(pairs[list[i]])
-            o = list.indexOf(list[i])
-            pairs[list[i]] = -1
-        } else {
-            j = -1
-            o = -1
+    for (i in list.indices) {
+        if (number - list[i] in list) {
+            if (i != list.indexOf(number - list[i])) {
+                return Pair(minOf(i, list.indexOf(number - list[i])), maxOf(i, list.indexOf(number - list[i])))
+            }
         }
     }
-    return (Pair(j, o))
+    return Pair(-1, -1)
 }
 
 /**
