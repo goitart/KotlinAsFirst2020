@@ -2,6 +2,7 @@
 
 package lesson5.task1
 
+import ru.spbstu.wheels.combineCompares
 import ru.spbstu.wheels.sorted
 import kotlin.math.max
 
@@ -291,24 +292,17 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  */
 
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
-    if (list.isEmpty()) {
-        return Pair(-1, -1)
-    }
-    val pairs = mapOf(list[0] to list[1], list[2] to list[0], list[1] to list[2])
-    val n = when {
-        list[0] == list[1] || list[1] == list[2] -> 1
-        list[0] == list[2]                       -> 2
-        else                                     -> 0
-    }
-    var pair = Pair(-1, -1)
-    for ((key, value) in pairs) {
-        if (key + value == number) {
-            pair = Pair(list.indexOf(key), list.indexOf(value) + n)
-            break
+    val pair = Pair(-1, -1)
+    for (i in 0..list.size - 1) {
+        if (number - list[i] in list) {
+            if (i != list.indexOf(number - list[i])) {
+                return Pair(i, list.indexOf(number - list[i])).sorted()
+            }
         }
     }
-    return pair.sorted()
+    return pair
 }
+
 
 /**
  * Очень сложная (8 баллов)
