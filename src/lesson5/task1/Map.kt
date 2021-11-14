@@ -183,7 +183,27 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  *     "печенье"
  *   ) -> "Мария"
  */
-fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? = TODO()
+fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
+    val productnames = mutableListOf<String>()
+    val producttypes = mutableListOf<String>()
+    val produstvalues = mutableListOf<Double>()
+    var minvalue = 10000000000.0
+    for ((key, value) in stuff) {
+        productnames.add(key)
+        producttypes.add(value.first)
+        produstvalues.add(value.second)
+        if (kind == value.first) {
+            if (value.second <= minvalue){
+                minvalue = value.second
+            }
+        }
+    }
+    if (produstvalues.indexOf(minvalue) == -1){
+        return null
+    } else {
+        return productnames[produstvalues.indexOf(minvalue)]
+    }
+}
 
 /**
  * Средняя (3 балла)
@@ -277,7 +297,32 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+    if (list.size == 0) {
+        return Pair(-1, -1)
+    }
+    val n0 = list[0]
+    val n1 = list[1]
+    val n2 = list[2]
+    var j = 0
+    var o = 0
+    val pairs = mutableMapOf(
+        n0 to n1,
+        n1 to n2,
+        n2 to n0
+    )
+    for (i in 0..2) {
+        if (pairs[list[i]]?.plus(list[i]) == number) {
+            j = list.indexOf(pairs[list[i]])
+            o = list.indexOf(list[i])
+            pairs[list[i]] = -1
+        } else {
+            j = -1
+            o = -1
+        }
+    }
+    return (Pair(j, o))
+}
 
 /**
  * Очень сложная (8 баллов)
@@ -300,4 +345,42 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
  *     450
  *   ) -> emptySet()
  */
-fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> = TODO()
+fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
+    val listtreasures = mutableListOf<String>()
+    val listweights = mutableListOf<Int>()
+    val listvalues = mutableListOf<Int>()
+    val final = mutableSetOf<String>()
+    for ((key, value) in treasures) {
+        listtreasures.add(key)
+        listweights.add(value.first)
+        listvalues.add(value.second)
+    }
+    if (listweights.size == 0) {
+        return setOf<String>()
+    }
+    val bags = mutableListOf<Int>(0)
+    bags += listweights
+    bags.add(capacity)
+    val table = Array(listtreasures.size + 1) { IntArray(bags.last() + 1) }
+    for (n in 1..listtreasures.size) {
+        for (m in 0..capacity) { /*может быть идти до capacity не самый эффективный вариант, но я не смог ничего другого придумать*/
+            if (listweights[n - 1] > m) {
+                table[n][m] = table[n - 1][m]
+            } else {
+                val prMaxVal1 = table[n - 1][m]
+                val val2 = table[n - 1][m - listweights[n - 1]] + listvalues[n - 1]
+                table[n][m] = maxOf(prMaxVal1, val2)
+            }
+        }
+    }
+    var remainder = capacity
+    var count = treasures.size
+    while (count > 0) {
+        if (table[count - 1][remainder] != table[count][remainder]) {
+            final.add(listtreasures[count - 1])
+            remainder -= listweights[count - 1]
+        }
+        count--
+    }
+    return final
+}

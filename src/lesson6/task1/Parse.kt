@@ -2,6 +2,8 @@
 
 package lesson6.task1
 
+import kotlin.math.pow
+
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
 // Рекомендуемое количество баллов = 11
@@ -115,6 +117,11 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int = TODO()
+//    if (Regex("""(\d+|-|%)+""").matches(jumps)) {
+//        print("yes")
+//    }
+//    return 717
+//}
 
 /**
  * Сложная (6 баллов)
@@ -163,7 +170,16 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * Все цены должны быть больше нуля либо равны нулю.
  */
 fun mostExpensive(description: String): String = TODO()
-
+//    val parts = description.split(";")
+//    var max = 0.0
+//    val desc = "$description; "
+//    println(desc)
+//    if (Regex("""([^\r]+\w+ \d+\.\d+; )+""").matches(desc)) {
+//        print("yes")
+//    }
+//    return ""
+//}
+//       не успел дописать
 /**
  * Сложная (6 баллов)
  *
@@ -175,7 +191,23 @@ fun mostExpensive(description: String): String = TODO()
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+fun fromRoman(roman: String): Int {
+    val numbers = listOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1, 0)
+    val romans = listOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I", "")
+    var result = 0
+    var iprev = "M"
+    for (i in roman) {
+        val j = i.toString()
+        if (j !in "IMLCXVD") return -1
+        if (numbers[romans.indexOf(j)] > numbers[romans.indexOf(iprev)]) {
+            result += numbers[romans.indexOf(j)] - numbers[romans.indexOf(iprev)] - numbers[romans.indexOf(iprev)]
+        } else if (j in romans) {
+            result += numbers[romans.indexOf(j)]
+        }
+        iprev = j
+    }
+    return result
+}
 
 /**
  * Очень сложная (7 баллов)
