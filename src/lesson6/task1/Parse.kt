@@ -169,7 +169,7 @@ fun firstDuplicateIndex(str: String): Int {
     val words = (""" """).toRegex().split(str)
     if (words.size == 1) return -1
     var answer = 0
-    for (w in 1..words.size) {
+    for (w in 1..words.size - 1) {
         if (words[w - 1].equals(words[w], ignoreCase = true)) {
             break
         } else {
