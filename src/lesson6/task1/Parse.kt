@@ -206,6 +206,7 @@ fun fromRoman(roman: String): Int {
         }
         iprev = j
     }
+    if (result == 0) return -1 /* если result = 0, значит число не корректное*/
     return result
 }
 
