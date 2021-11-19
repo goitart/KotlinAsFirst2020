@@ -199,10 +199,12 @@ fun fromRoman(roman: String): Int {
     for (i in roman) {
         val j = i.toString()
         if (j !in "IMLCXVD") return -1
-        if (numbers[romans.indexOf(j)] > numbers[romans.indexOf(iprev)]) {
-            result += numbers[romans.indexOf(j)] - numbers[romans.indexOf(iprev)] - numbers[romans.indexOf(iprev)]
+        val indexj = romans.indexOf(j)
+        val indxiprev = romans.indexOf(iprev)
+        if (numbers[indexj] > numbers[indxiprev]) {
+            result += numbers[indexj] - numbers[indxiprev] - numbers[indxiprev]
         } else if (j in romans) {
-            result += numbers[romans.indexOf(j)]
+            result += numbers[indexj]
         }
         iprev = j
     }

@@ -3,6 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import java.lang.StringBuilder
 import kotlin.math.sqrt
 import kotlin.math.*
 
@@ -258,26 +259,29 @@ fun roman(n: Int): String {
     val stringnumber = n.toString()
     val lenghtofstnum = stringnumber.length
     var st = lenghtofstnum - 1
-    var result = ""
+    val result = StringBuilder()
     var indexinnubs = 0
     var count: Int
     for (i in 1..lenghtofstnum) {
-        count = 0
-        var n1 = (((n / 10.0.pow(st)) % 10).toInt() * 10.0.pow(st)).toInt()
+        count = 0   /*не совсем понимаю как тут использовать строки, мне кажется, что тогда код еще усложнится*/
+        var n1 = (((n / 10.0.pow(st)) % 10).toInt() * 10.0.pow(st)).toInt()/* мне тут нужно взять только максимальный
+                                                                             разряд числа, отбросив остальные*/
         while (n1 !in numbers) {
             n1 -= 10.0.pow(st).toInt()
-            indexinnubs = numbers.indexOf(10.0.pow(st).toInt())
+            indexinnubs = numbers.indexOf(10.0.pow(st).toInt()) /*и далее я постепенно вычитаю из максимального разряда
+                                                                 максимальное из numbers и записываю в result*/
             count++
         }
-        if (n1 in numbers) {
-            result += romans[numbers.indexOf(n1)]
+        if (n1 in numbers) {                           /*когда я уменьшу n1 настолько, что он сам окажется в numbers
+                                                            я его тоже занесу в результат*/
+            result.append(romans[numbers.indexOf(n1)])
         }
         for (m in 0 until count) {
-            result += romans[indexinnubs]
+            result.append(romans[indexinnubs])
         }
-        st--
+        st--  /*уменьшая st, я уменьшаю степень, а значит и разряд, с которым работаю*/
     }
-    return result
+    return result.toString()
 }
 
 /**
