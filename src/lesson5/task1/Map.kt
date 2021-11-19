@@ -2,8 +2,6 @@
 
 package lesson5.task1
 
-import ru.spbstu.wheels.combineCompares
-import ru.spbstu.wheels.sorted
 import kotlin.math.max
 
 // Урок 5: ассоциативные массивы и множества
@@ -292,17 +290,18 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  */
 
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
-    val pair = Pair(-1, -1)
-    for (i in 0..list.size - 1) {
-        if (number - list[i] in list) {
-            if (i != list.indexOf(number - list[i])) {
-                return Pair(i, list.indexOf(number - list[i])).sorted()
-            }
+    if (list.isEmpty()) return Pair(-1, -1)
+    var p = Pair(-1, -1)
+    val twoNumbers = mutableMapOf<Int, Int>()
+    for (i in list.indices) {
+        if (twoNumbers.contains(list[i])) {
+            p = Pair(twoNumbers.get(list[i])!!, i)
+            break
         }
+        twoNumbers[number - list[i]] = i
     }
-    return pair
+    return p
 }
-
 
 /**
  * Очень сложная (8 баллов)
@@ -331,30 +330,31 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     val costs = mutableListOf<Int>()
     val names = mutableListOf<String>()
     val filling = mutableSetOf<String>()
-    for ((key, value) in treasures) {
-        weights.add(value.first)
-        costs.add(value.second)
-        names.add(key)
+    for ((name, feature) in treasures) {
+        weights.add(feature.first)
+        costs.add(feature.second)
+        names.add(name)
     }
-    val spreadsheet = Array(weights.size + 1) { IntArray(capacity + 1) }
-    for (i in 1..weights.size)
-        for (k in 0..capacity)
+    val costsTable = Array(weights.size + 1) { IntArray(capacity + 1) }
+    for (i in 1..weights.size) {
+        for (k in weights.sorted()[0]..capacity) {
             if (weights[i - 1] > k) {
-                spreadsheet[i][k] = spreadsheet[i - 1][k]
+                costsTable[i][k] = costsTable[i - 1][k]
             } else {
-                val prevLine = spreadsheet[i - 1][k]
-                val cell = costs[i - 1] + spreadsheet[i - 1][k - weights[i - 1]]
-                spreadsheet[i][k] = max(cell, prevLine)
+                val prevLine = costsTable[i - 1][k]
+                val cell = costs[i - 1] + costsTable[i - 1][k - weights[i - 1]]
+                costsTable[i][k] = max(cell, prevLine)
             }
-//добавить заполнение set
-    var capacityCount = capacity
-    var a = names.size
-    while (a > 0) {
-        if (spreadsheet[a][capacityCount] != spreadsheet[a - 1][capacityCount]) {
-            filling.add(names[a - 1])
-            capacityCount -= weights[a - 1]
         }
-        a -= 1
+    }
+    var capacityCount = capacity
+    var namesSize = names.size
+    while (namesSize > 0) {
+        if (costsTable[namesSize][capacityCount] != costsTable[namesSize - 1][capacityCount]) {
+            filling.add(names[namesSize - 1])
+            capacityCount -= weights[namesSize - 1]
+        }
+        namesSize -= 1
     }
     return filling
 }

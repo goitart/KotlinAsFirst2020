@@ -152,7 +152,9 @@ fun plusMinus(expression: String): Int {
     }
     if (Regex("""(\d+ [+-] )+\d+""").matches(expression) && expression.isNotEmpty()) {
         return oneStep
-    } else throw IllegalArgumentException(expression)
+    } else {
+        throw IllegalArgumentException(expression)
+    }
 }
 
 
@@ -169,18 +171,14 @@ fun firstDuplicateIndex(str: String): Int {
     val words = (""" """).toRegex().split(str)
     if (words.size == 1) return -1
     var answer = 0
-    var flag = 0
     for (w in 1..words.size - 1) {
         if (words[w - 1].equals(words[w], ignoreCase = true)) {
-            flag = 1
-            break
+            return answer
         } else {
             answer += words[w - 1].length + 1
         }
     }
-    return if (flag == 1) answer
-    else -1
-
+    return -1
 }
 
 /**
