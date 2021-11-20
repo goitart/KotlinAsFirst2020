@@ -3,6 +3,7 @@
 package lesson6.task1
 
 import kotlin.math.pow
+import kotlin.math.sqrt
 
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
@@ -116,12 +117,18 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
-//    if (Regex("""(\d+|-|%)+""").matches(jumps)) {
-//        print("yes")
-//    }
-//    return 717
-//}
+fun bestLongJump(jumps: String): Int {
+    val changedjump = "$jumps - "
+    var maxvalue = -1
+    val pattern = Regex("""(\d+ |- |% )+""")
+    if (pattern.matches(changedjump)) {
+        val numbs = Regex("""\d+""").findAll(jumps)
+        numbs.forEach { f -> val n = f.value
+            maxvalue = maxOf(maxvalue, n.toInt())
+        }
+    }
+    return maxvalue
+}
 
 /**
  * Сложная (6 баллов)
@@ -145,7 +152,21 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    val changedexpr = "$expression + "
+    var result: Int
+    if (Regex("""(\d+ ([+\-]) )+""").matches(changedexpr)) {
+        val parts = expression.split(" ")
+        result = parts[0].toInt()
+        for (i in 0..parts.size - 1) {
+            when (parts[i]) {
+                "-" -> result -= parts[i + 1].toInt()
+                "+" -> result += parts[i + 1].toInt()
+            }
+        }
+    } else throw IllegalArgumentException(expression)
+    return result
+}
 
 /**
  * Сложная (6 баллов)
@@ -179,7 +200,7 @@ fun mostExpensive(description: String): String = TODO()
 //    }
 //    return ""
 //}
-//       не успел дописать
+//
 /**
  * Сложная (6 баллов)
  *
