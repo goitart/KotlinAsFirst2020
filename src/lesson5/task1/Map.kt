@@ -187,21 +187,24 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
     val productnames = mutableListOf<String>()
     val producttypes = mutableListOf<String>()
     val produstvalues = mutableListOf<Double>()
-    var minvalue = 10000000000.0
+    var minvalue = 0.0
+    var finaltype = String()
     for ((key, value) in stuff) {
         productnames.add(key)
         producttypes.add(value.first)
         produstvalues.add(value.second)
+        minvalue = maxOf(minvalue, value.second) + 1
         if (kind == value.first) {
-            if (value.second <= minvalue) {
+            if (value.second < minvalue) {
                 minvalue = value.second
+                finaltype = value.first
             }
         }
     }
     if (produstvalues.indexOf(minvalue) == -1) {
         return null
     } else {
-        return productnames[produstvalues.indexOf(minvalue)]
+        return productnames[producttypes.indexOf(finaltype)]
     }
 }
 
@@ -298,12 +301,12 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+    val mapofindices = mutableMapOf<Int, Int>()
     for (i in list.indices) {
-        if (number - list[i] in list) {
-            if (i != list.indexOf(number - list[i])) {
-                return Pair(minOf(i, list.indexOf(number - list[i])), maxOf(i, list.indexOf(number - list[i])))
-            }
+        if (list[i] in mapofindices) {
+            return Pair(minOf(i, list.indexOf(number - list[i])), maxOf(i, list.indexOf(number - list[i])))
         }
+        mapofindices[number - list[i]] = i
     }
     return Pair(-1, -1)
 }
@@ -342,12 +345,10 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     if (listweights.size == 0) {
         return setOf<String>()
     }
-    val bags = mutableListOf<Int>(0)
-    bags += listweights
-    bags.add(capacity)
-    val table = Array(listtreasures.size + 1) { IntArray(bags.last() + 1) }
+    val bags = listweights.sorted()
+    val table = Array(listtreasures.size + 1) { IntArray(capacity + 1) }
     for (n in 1..listtreasures.size) {
-        for (m in 0..capacity) { /*может быть идти до capacity не самый эффективный вариант, но я не смог ничего другого придумать*/
+        for (m in bags[0]..capacity) {
             if (listweights[n - 1] > m) {
                 table[n][m] = table[n - 1][m]
             } else {

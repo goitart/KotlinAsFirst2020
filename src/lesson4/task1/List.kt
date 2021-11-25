@@ -263,23 +263,21 @@ fun roman(n: Int): String {
     var indexinnubs = 0
     var count: Int
     for (i in 1..lenghtofstnum) {
-        count = 0   /*не совсем понимаю как тут использовать строки, мне кажется, что тогда код еще усложнится*/
-        var n1 = (((n / 10.0.pow(st)) % 10).toInt() * 10.0.pow(st)).toInt()/* мне тут нужно взять только максимальный
-                                                                             разряд числа, отбросив остальные*/
+        val rank = 10.0.pow(st).toInt()
+        count = 0
+        var n1 = ("$n"[i - 1].digitToInt() * rank)
         while (n1 !in numbers) {
-            n1 -= 10.0.pow(st).toInt()
-            indexinnubs = numbers.indexOf(10.0.pow(st).toInt()) /*и далее я постепенно вычитаю из максимального разряда
-                                                                 максимальное из numbers и записываю в result*/
+            n1 -= rank
+            indexinnubs = numbers.indexOf(rank)
             count++
         }
-        if (n1 in numbers) {                           /*когда я уменьшу n1 настолько, что он сам окажется в numbers
-                                                            я его тоже занесу в результат*/
+        if (n1 in numbers) {
             result.append(romans[numbers.indexOf(n1)])
         }
         for (m in 0 until count) {
             result.append(romans[indexinnubs])
         }
-        st--  /*уменьшая st, я уменьшаю степень, а значит и разряд, с которым работаю*/
+        st--
     }
     return result.toString()
 }
