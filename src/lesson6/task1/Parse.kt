@@ -119,15 +119,13 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  */
 fun bestLongJump(jumps: String): Int {
     val changedjump = "$jumps - "
-    var maxvalue = -1
     val pattern = Regex("""(\d+ |- |% )+""")
     if (pattern.matches(changedjump)) {
-        val numbs = Regex("""\d+""").findAll(jumps)
-        numbs.forEach { f -> val n = f.value
-            maxvalue = maxOf(maxvalue, n.toInt())
+        if ((jumps.split(" ").mapNotNull { it.toIntOrNull() }.maxOrNull()) != null){
+            return jumps.split(" ").mapNotNull { it.toIntOrNull() }.maxOrNull()!!
         }
     }
-    return maxvalue
+    return -1
 }
 
 /**
@@ -155,16 +153,15 @@ fun bestHighJump(jumps: String): Int = TODO()
 fun plusMinus(expression: String): Int {
     val changedexpr = "$expression + "
     var result: Int
-    if (Regex("""(\d+ ([+\-]) )+""").matches(changedexpr)) {
-        val parts = expression.split(" ")
-        result = parts[0].toInt()
-        for (i in 0..parts.size - 1) {
-            when (parts[i]) {
-                "-" -> result -= parts[i + 1].toInt()
-                "+" -> result += parts[i + 1].toInt()
-            }
+    if (!Regex("""(\d+ ([+\-]) )+""").matches(changedexpr)) throw IllegalArgumentException(expression)
+    val parts = expression.split(" ")
+    result = parts[0].toInt()
+    for (i in 0..parts.size - 1) {
+        when (parts[i]) {
+            "-" -> result -= parts[i + 1].toInt()
+            "+" -> result += parts[i + 1].toInt()
         }
-    } else throw IllegalArgumentException(expression)
+    }
     return result
 }
 
@@ -190,17 +187,16 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше нуля либо равны нулю.
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
 //    val parts = description.split(";")
 //    var max = 0.0
 //    val desc = "$description; "
-//    println(desc)
-//    if (Regex("""([^\r]+\w+ \d+\.\d+; )+""").matches(desc)) {
-//        print("yes")
-//    }
-//    return ""
-//}
-//
+////    if (Regex("""([А-Яа-яЁё]+ (\d+|\d+\.\d+); )+""").matches(desc)) {
+////        val match =
+////    }
+    return ""
+}
+
 /**
  * Сложная (6 баллов)
  *
@@ -270,3 +266,25 @@ fun fromRoman(roman: String): Int {
  *
  */
 fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> = TODO()
+
+//fun maxsumlist(list: String): List<Int> {
+//    val listch = " $list,"
+//    var result = listOf<Int>()
+//    var maxvalues = listOf<Int>()
+//    if (Regex("""(( |-)+\d+,)+""").matches(listch)) {
+//        val numbs = Regex("""((|-)+\d+)""").findAll(list)
+//        numbs.forEach { f ->
+//            val part = f.value
+//            val intpart = part.toInt()
+//            maxvalues + intpart
+//
+//        }
+//        for (i in maxvalues.indices) {
+//            if (result.sum() < result.sum() + maxvalues[i]) {
+//                result = result + maxvalues[i]
+//            if ()
+//            }
+//        }
+//    } else throw IllegalArgumentException()
+//    return result
+//}
