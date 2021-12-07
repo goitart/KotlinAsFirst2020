@@ -134,7 +134,7 @@ fun centerFile(inputName: String, outputName: String) {
     for (line in File(inputName).readLines()) {
         var spaceNumerous = maxLineLenght - line.trim().length
         if ((spaceNumerous) % 2 != 0) {
-            spaceNumerous--
+            spaceNumerous -= 1
         }
         val alignmentSize = " ".repeat(spaceNumerous / 2)
         val alligment = alignmentSize + line.trim()
