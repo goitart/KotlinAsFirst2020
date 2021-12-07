@@ -121,8 +121,9 @@ fun bestLongJump(jumps: String): Int {
     val changedjump = "$jumps - "
     val pattern = Regex("""(\d+ |- |% )+""")
     if (pattern.matches(changedjump)) {
-        if ((jumps.split(" ").mapNotNull { it.toIntOrNull() }.maxOrNull()) != null){
-            return jumps.split(" ").mapNotNull { it.toIntOrNull() }.maxOrNull()!!
+        val check = (jumps.split(" ").mapNotNull { it.toIntOrNull() }.maxOrNull())
+        if (check != null) {
+            return check
         }
     }
     return -1
@@ -270,21 +271,91 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> = TO
 //fun maxsumlist(list: String): List<Int> {
 //    val listch = " $list,"
 //    var result = listOf<Int>()
-//    var maxvalues = listOf<Int>()
-//    if (Regex("""(( |-)+\d+,)+""").matches(listch)) {
+//    val values = mutableListOf<Int>()
+//    val maxvalues = mutableListOf<Int>()
+//    var max = 0
+//    if (Regex("""(([ \-])+\d+,)+""").matches(listch)) {
 //        val numbs = Regex("""((|-)+\d+)""").findAll(list)
 //        numbs.forEach { f ->
 //            val part = f.value
 //            val intpart = part.toInt()
-//            maxvalues + intpart
-//
+//            values += intpart
 //        }
-//        for (i in maxvalues.indices) {
-//            if (result.sum() < result.sum() + maxvalues[i]) {
-//                result = result + maxvalues[i]
-//            if ()
+//        for (i in values.indices) {
+//            maxvalues.add(values[i])
+//            for (j in i+1..values.size - 1) {
+//                maxvalues.add(values[j])
+//                if (max <= maxvalues.sum()) {
+//                    max = maxvalues.sum()
+//                    result = maxvalues.toList()
+//                }
 //            }
+//            maxvalues.clear()
 //        }
 //    } else throw IllegalArgumentException()
 //    return result
 //}
+//fun pairs(list: String): MutableMap<Int, Int> {
+//    var numberslist = mutableListOf<Int>()
+//    val pairs1 = mutableMapOf<Int, Int>()
+//    if (!Regex("""(\d+; )+""").matches(list)) throw IllegalArgumentException()
+//    val numbs = Regex("""\d+""").findAll(list)
+//    numbs.forEach { f ->
+//        val part = f.value
+//        val intpart = part.toInt()
+//        numberslist.add(intpart)
+//    }
+//    for (i in 1..numberslist.size - 1) {
+//        if (numberslist[i - 1] - numberslist[i] > 1 || numberslist[i] - numberslist[i - 1] > 1)
+//            pairs1[maxOf(numberslist[i - 1], numberslist[i])] = minOf(numberslist[i - 1], numberslist[i])
+//    }
+//    for (i in 1..numberslist.size - 2) {
+//        if (numberslist[i + 1] - numberslist[i] > 1 || numberslist[i] - numberslist[i + 1] > 1)
+//            pairs1[maxOf(numberslist[i + 1], numberslist[i])] = minOf(numberslist[i + 1], numberslist[i])
+//    }
+//    print(numberslist)
+//    return pairs1
+//}
+//fun football(text: String, list: List<String>): Map<String, Int> {
+//    var score = mutableMapOf<String, Int>()
+//    if (!Regex("""([а-яА-Я]+ \d+:\d+ [а-яА-Я]+; )+""").matches(text)) throw IllegalArgumentException()
+//    var textlist = listOf<String>()
+//    val matches = Regex("""[а-яА-я]+|\d+""").findAll(text)
+//    matches.forEach { f ->
+//        val part = f.value
+//        textlist = textlist + part
+//    }
+//    for (i in 1..textlist.size - 2 step 4) {
+//        if (textlist[i] > textlist[i + 1]) score[textlist[i - 1]] = 3
+//        else if (textlist[i] < textlist[i + 1]) score[textlist[i + 2]] = 3
+//        else if (textlist[i] == textlist[i + 1]) {
+//            score[textlist[i - 1]] = 1
+//            score[textlist[i + 2]] = 1
+//        }
+//    }
+//    return score
+//}
+//fun tele(names: List<String>, digits: String): MutableList<String>{
+//    val keyboard = mapOf(2 to "abc", 3 to "def", 4 to "ghi", 5 to "jkl", 6 to "mno", 7 to "pqrs", 8 to "tuv", 9 to "wxyz")
+//    val keyboard1 = mutableMapOf<Char, Int>()
+//    var flag = true
+//    for ((key, value) in keyboard) {
+//        for (l in value) {
+//            keyboard1[l] = key
+//        }
+//    }
+//    var word = ""
+//    val result = mutableListOf<String>()
+//    if (digits == "") return mutableListOf<String>()
+//    for (name in names) {
+//        for (letter in name) {
+//            if (letter in keyboard1) word += keyboard1[letter]
+//            else flag = false
+//        }
+//        if (word == digits && flag == true) result.add(name)
+//        word = ""
+//        flag = true
+//    }
+//    return result
+//}
+
