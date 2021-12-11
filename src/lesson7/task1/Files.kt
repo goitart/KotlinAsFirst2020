@@ -126,12 +126,13 @@ fun sibilants(inputName: String, outputName: String) {
 fun centerFile(inputName: String, outputName: String) {
     var maxLineLenght = 0
     val writer = File(outputName).bufferedWriter()
-    for (line in File(inputName).readLines()) {
+    val lines = File(inputName).readLines()
+    for (line in lines) {
         if (line.trim().length > maxLineLenght) {
             maxLineLenght = line.trim().length
         }
     }
-    for (line in File(inputName).readLines()) {
+    for (line in lines) {
         var spaceNumerous = maxLineLenght - line.trim().length
         if ((spaceNumerous) % 2 != 0) {
             spaceNumerous -= 1
@@ -265,22 +266,24 @@ fun chooseLongestChaoticWord(inputName: String, outputName: String) {
     var maxLength = 0
     val outputWriter = File(outputName).bufferedWriter()
     val wordsList = mutableListOf<String>()
-    for (line in File(inputName).readLines()) {
-        val chaoticWord = StringBuilder(line[0].toString())
+    val lines = File(inputName).readLines()
+    for (line in lines) {
+        val letterFreq = mutableMapOf(line[0].lowercase() to 1)
+
         for (letter in 1..line.length - 1) {
-            if (!chaoticWord.contains(line[letter].toString(), ignoreCase = true)) {
-                chaoticWord.append(line[letter].toString())
+            val lowerLetter = line[letter].lowercase()
+            if (letterFreq.contains(lowerLetter)) {
+                letterFreq[lowerLetter] = letterFreq.getValue(lowerLetter) + 1
             } else {
-                chaoticWord.clear()
-                break
+                letterFreq[lowerLetter] = 1
             }
         }
-        if (chaoticWord.isNotEmpty()) {
+        if (letterFreq.values.size == line.length) {
             when {
-                line.length == maxLength -> wordsList.add(chaoticWord.toString())
+                line.length == maxLength -> wordsList.add(line)
                 line.length > maxLength  -> {
                     wordsList.clear()
-                    wordsList.add(chaoticWord.toString())
+                    wordsList.add(line)
                     maxLength = line.length
                 }
             }
