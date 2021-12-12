@@ -131,10 +131,11 @@ fun centerFile(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     var maxsize = 0
     var spacenumber: String
-    for (line in File(inputName).readLines()) {
+    val lines = File(inputName).readLines()
+    for (line in lines) {
         maxsize = maxOf(maxsize, line.trim().length)
     }
-    for (line in File(inputName).readLines()) {
+    for (line in lines) {
         val allspaces = maxsize - line.trim().length
         if (allspaces % 2 == 0) spacenumber = (" ").repeat(allspaces / 2)
         else spacenumber = (" ").repeat((allspaces - 1) / 2)
@@ -172,7 +173,36 @@ fun centerFile(inputName: String, outputName: String) {
  * 8) Если входной файл удовлетворяет требованиям 1-7, то он должен быть в точности идентичен выходному файлу
  */
 fun alignFileByWidth(inputName: String, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+    var maxsize = 0
+    val lines = File(inputName).readLines()
+    for (line in lines) {
+        val spacereplace = Regex(""" +""").replace(line, " ")
+        maxsize = maxOf(maxsize, spacereplace.trim().length)
+    }
+    for (line in lines) {
+        val spacereplace = Regex(""" +""").replace(line, " ")
+        val linetr = spacereplace.trim()
+        val words = linetr.split(" ").toMutableList()
+        val numbwords = words.joinToString(separator = "").length
+        var allspaces = maxsize - numbwords
+        if (words.size == 1) {
+            writer.write(words[0])
+            writer.newLine()
+            continue
+        }
+        while (allspaces != 0) {
+            for (i in 0..words.size - 2) {
+                if (allspaces != 0) {
+                    words[i] = words[i] + " "
+                    allspaces -= 1
+                }
+            }
+        }
+        writer.write(words.joinToString(separator = ""))
+        writer.newLine()
+    }
+    writer.close()
 }
 
 /**
