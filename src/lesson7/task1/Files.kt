@@ -173,8 +173,38 @@ fun centerFile(inputName: String, outputName: String) {
  * 8) Если входной файл удовлетворяет требованиям 1-7, то он должен быть в точности идентичен выходному файлу
  */
 fun alignFileByWidth(inputName: String, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+    var maxLineLenght = 0
+    val lines = File(inputName).readLines()
+    for (line in lines) {
+        val maxLineWithSpace = Regex(""" +""").replace(line, " ")
+        maxLineLenght = maxOf(maxLineLenght, maxLineWithSpace.trim().length)
+    }
+    for (line in lines) {
+        val onlyLine = line.trim()
+        val lineWithSpace = Regex(""" +""").replace(onlyLine, " ")
+        val wordsList = lineWithSpace.split(" ").toMutableList()
+        var spacesToAdd = maxLineLenght - wordsList.joinToString(separator = "").length
+        if (wordsList.size == 1) {
+            writer.write(wordsList.joinToString(separator = ""))
+            writer.newLine()
+        } else {
+            while (spacesToAdd > 0) {
+                for (i in 0..wordsList.size - 2) {
+                    if (spacesToAdd > 0) {
+                        wordsList[i] = wordsList[i] + " "
+                        spacesToAdd--
+                    }
+                }
+            }
+            writer.write(wordsList.joinToString(separator = ""))
+            writer.newLine()
+        }
+
+    }
+    writer.close()
 }
+
 
 /**
  * Средняя (14 баллов)
@@ -281,7 +311,7 @@ fun chooseLongestChaoticWord(inputName: String, outputName: String) {
         if (letterFreq.values.size == line.length) {
             when {
                 line.length == maxLength -> wordsList.add(line)
-                line.length > maxLength  -> {
+                line.length > maxLength -> {
                     wordsList.clear()
                     wordsList.add(line)
                     maxLength = line.length
