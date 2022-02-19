@@ -1,0 +1,6 @@
+origin  https://github.com/goitart/KotlinAsFirst2020 (fetch)
+origin  https://github.com/goitart/KotlinAsFirst2020 (push)
+upstream-my     https://github.com/goitart/KotlinAsFirst2021.git (fetch)
+upstream-my     https://github.com/goitart/KotlinAsFirst2021.git (push)
+upstream-theirs https://github.com/Uwncos/KotlinAsFirst2021.git (fetch)
+upstream-theirs https://github.com/Uwncos/KotlinAsFirst2021.git (push)
